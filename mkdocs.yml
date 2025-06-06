@@ -1,0 +1,85 @@
+site_name: KyberShards
+site_description: A modular Python library providing implementations of data science tools, algorithms and data structures
+site_author: SaricVr
+repo_url: https://github.com/SaricVr/kybershards
+repo_name: kybershards
+copyright: Copyright &copy; 2025 SaricVr
+
+nav:
+  - Homepage:
+      - index.md
+  - API Reference:
+    - Data Science:
+      - Decomposition:
+        - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
+    - Utilities: kybershards/utils.md
+
+theme:
+  name: material
+  icon:
+    repo: material/github
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+    - navigation.prune
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+plugins:
+  - search
+  - mkdocstrings:
+      enable_inventory: true
+      handlers:
+        python:
+          inventories:
+              - https://docs.python.org/3/objects.inv
+          options:
+            show_source: false
+            show_signature_annotations: true
+            filters: ["!^_"]
+            inherited_members: true
+            separate_signature: true
+            unwrap_annotated: true
+            merge_init_into_class: true
+            signature_crossrefs: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            show_root_heading: true
+            show_if_no_docstring: true
+            docstring_options:
+              ignore_init_summary: true
+
+  

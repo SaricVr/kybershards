@@ -1,0 +1,44 @@
+[project]
+name = "kybershards"
+version = "0.1.0"
+description = "A modular Python library providing implementations of machine learning components, data structures, and analysis tools for data science"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dsci = [
+    "pandas>=2.3.0",
+    "scikit-learn>=1.6.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.7.9,<0.8"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.401",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.11.12",
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.14",
+    "mkdocstrings[python]>=0.29.1",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ["A","B","C4","C90","COM","D","E","ERA","FA","FIX","F","I","ICN","ISC","PLE","PLC","PLR","PLW","PL",
+    "PYI","Q","PTH","T10","TCH","TD","UP","W"
+    ]
+ignore = ["COM812","D203","D213","PLR0913"]
+fixable = ["I"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
