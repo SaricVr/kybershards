@@ -12,7 +12,9 @@ nav:
     - Data Science:
       - Decomposition:
         - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
-    - Utilities: kybershards/utils.md
+        - SVD Algorithm: kybershards/dsci/decomposition/svd.md
+      - Types: kybershards/dsci/types.md
+      - Utilities: kybershards/dsci/utils.md
 
 theme:
   name: material
@@ -66,6 +68,8 @@ plugins:
         python:
           inventories:
               - https://docs.python.org/3/objects.inv
+              - https://numpy.org/doc/stable/objects.inv
+              - https://scikit-learn.org/stable/objects.inv
           options:
             show_source: false
             show_signature_annotations: true
@@ -78,8 +82,28 @@ plugins:
             show_symbol_type_heading: true
             show_symbol_type_toc: true
             show_root_heading: true
-            show_if_no_docstring: true
             docstring_options:
               ignore_init_summary: true
-
   
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.betterem
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+      pygments_lang_class: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - css/extra.css
+extra_javascript:
+  - js/extra.js
