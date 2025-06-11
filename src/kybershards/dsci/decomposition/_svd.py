@@ -1,6 +1,6 @@
 from enum import Enum
 
-from numpy.typing import NDArray, ArrayLike
+from numpy.typing import ArrayLike, NDArray
 from scipy.linalg import svd as full_svd
 from sklearn.utils.extmath import randomized_svd, svd_flip
 from sklearn.utils.validation import check_random_state
@@ -26,6 +26,6 @@ def svd(
         random_state = check_random_state(random_state)
         U, S, VT = randomized_svd(X, n_components=n_components, random_state=random_state, flip_sign=False)
 
-    U, VT = svd_flip(U, VT, u_based_decision=False)
+    U, VT = svd_flip(U, VT)
 
     return U, S, VT
