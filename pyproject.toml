@@ -33,9 +33,7 @@ docs = [
 line-length = 120
 
 [tool.ruff.lint]
-extend-select = ["A","B","C4","C90","COM","D","E","ERA","FA","FIX","F","I","ICN","ISC","PLE","PLC","PLR","PLW","PL",
-    "PYI","Q","PTH","T10","TCH","TD","UP","W"
-    ]
+select = ["ALL"]
 ignore = ["COM812","D203","D213","PLR0913"]
 fixable = ["I"]
 

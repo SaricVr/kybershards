@@ -5,7 +5,7 @@ from scipy.linalg import svd as full_svd
 from sklearn.utils.extmath import randomized_svd, svd_flip
 from sklearn.utils.validation import check_random_state
 
-from kybershards.dsci.types import LegacySeed
+from kybershards.dsci.typing import LegacySeed
 
 
 class SVDAlgorithm(Enum):
@@ -22,6 +22,7 @@ def svd(
 ) -> tuple[NDArray, NDArray, NDArray]:
     if algorithm == SVDAlgorithm.FULL:
         U, S, VT = full_svd(X, full_matrices=False)
+        U, S, VT = U[:, :n_components], S[:n_components], VT[:n_components, :]
     else:
         random_state = check_random_state(random_state)
         U, S, VT = randomized_svd(X, n_components=n_components, random_state=random_state, flip_sign=False)

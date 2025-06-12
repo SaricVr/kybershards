@@ -1,6 +1,6 @@
 from numpy.random import Generator, RandomState, default_rng
 
-from kybershards.dsci.types import Seed
+from kybershards.dsci.typing import Seed
 
 
 def check_random_state(seed: Seed) -> Generator:

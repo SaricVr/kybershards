@@ -1,19 +1,22 @@
 site_name: KyberShards
-site_description: A modular Python library providing implementations of data science tools, algorithms and data structures
+site_description: A modular Python library providing implementations of machine learning components, data structures, and analysis tools for data science
 site_author: SaricVr
 repo_url: https://github.com/SaricVr/kybershards
 repo_name: kybershards
+site_url: https://saricvr.github.io/kybershards
 copyright: Copyright &copy; 2025 SaricVr
 
 nav:
   - Homepage:
       - index.md
   - API Reference:
+    - Documentation: kybershards/documentation.md
     - Data Science:
+      - kybershards/dsci.md
       - Decomposition:
         - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
         - SVD Algorithm: kybershards/dsci/decomposition/svd.md
-      - Types: kybershards/dsci/types.md
+      - Typing: kybershards/dsci/typing.md
       - Utilities: kybershards/dsci/utils.md
 
 theme:
