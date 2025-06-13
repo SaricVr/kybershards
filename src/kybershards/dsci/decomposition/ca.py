@@ -1,3 +1,5 @@
+from enum import Enum
+
 import numpy as np
 from numpy.linalg import norm
 from numpy.typing import ArrayLike, NDArray
@@ -8,8 +10,6 @@ from sklearn.utils.validation import check_is_fitted, validate_data
 from kybershards.dsci.decomposition import SVDAlgorithm
 from kybershards.dsci.decomposition._svd import svd
 from kybershards.dsci.typing import LegacySeed
-
-from enum import Enum
 
 
 class Coordinates(Enum):
@@ -41,13 +41,26 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
 
         [2] Greenacre, M. J. (1984). Theory and Applications of Correspondence Analysis.
                London: Academic Press.
+
+    Examples:
+        >>> from kybershards.dsci.datasets import load_workers_smoking_habits
+        >>> from kybershards.dsci.decomposition import CA
+        >>>
+        >>> X = load_workers_smoking_habits()
+        >>> ca = CA(n_components=3)
+        >>> ca.fit_transform(X)
+            array([[ 0.06576838,  0.193737  ,  0.07098103],
+                [-0.25895842,  0.24330457, -0.03370519],
+                [ 0.38059489,  0.01065991, -0.00515576],
+                [-0.23295191, -0.05774391,  0.00330537],
+                [ 0.20108912, -0.07891123, -0.00808108]])
     """
 
     def __init__(
         self,
         n_components: float,
         *,
-        compute_contributions: bool = True,
+        compute_contributions: bool = False,
         algorithm: SVDAlgorithm = SVDAlgorithm.TRUNCATED,
         random_state: LegacySeed = None,
     ):
@@ -65,11 +78,18 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
 
         Returns:
             The fitted estimator
+
+        Raises:
+            ValueError: If n_components is not between 1 and n_features or between 0 and 1.
         """
         X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)  # pyright: ignore [reportAssignmentType, reportArgumentType]
+
         return self._fit(X)
 
     def _fit(self, X: NDArray) -> "CA":
+        if not 0 < self.n_components <= X.shape[1] - 1:
+            raise ValueError(f"n_components={self.n_components} must be between 1 and n_features or between 0 and 1")
+
         # Correspondence matrix
         P = X / X.sum()
 
@@ -87,10 +107,15 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         # Standardize residuals
         S = self.diag_r_ @ D @ self.diag_c_
 
+        if self.n_components >= 1:
+            svd_components = min(int(self.n_components), X.shape[1] - 1)
+        else:
+            svd_components = X.shape[1] - 1
+
         # Left singular vector, singular values, right singular vector transposed
         self.row_components_, s, self.column_components_ = svd(
             S,
-            int(self.n_components) if self.n_components >= 1 else X.shape[1],
+            svd_components,
             algorithm=self.algorithm,
             random_state=self.random_state,
         )
@@ -98,7 +123,7 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         # Inertia
         self.inertia_ = s**2
         # This needs to consider all the features in input regardless of n_components
-        self.total_inertia_ = norm(S, "fro") ** 2
+        self.total_inertia_: np.float32 = norm(S, "fro") ** 2
         self.explained_inertia_ = self.inertia_ / self.total_inertia_
 
         # Retrieve the number of components based on the exlained inertia
@@ -144,12 +169,17 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         Args:
             X: Input contingency table or frequency matrix with non-negative values.
             coordinates: Which coordinates to compute in the princopal dimensions.
+                !!! warning
+                    If used as a transformer in a [`Pipeline`][sklearn.pipeline.Pipeline] with
+                    `transform_output="pandas"`, only [`ROWS`][kybershards.dsci.decomposition.Coordinates.ROWS]
+                    is supported
 
         Returns:
             Coordinates of rows or columns in the principal dimensions, based on `coordinates` argument
         """
         check_is_fitted(self)
         X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)  # pyright: ignore [reportAssignmentType, reportArgumentType]
+
         return self._transform(X, coordinates=coordinates)
 
     def _transform(self, X: NDArray, coordinates: Coordinates = Coordinates.ROWS) -> NDArray:
@@ -170,12 +200,19 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
             X: Input contingency table or frequency matrix with non-negative values.
             y: Ignored. Kept for API compatibility with scikit-learn.
             coordinates: Which coordinates to compute in the princopal dimensions.
+                !!! warning
+                    If used as a transformer in a [`Pipeline`][sklearn.pipeline.Pipeline] with
+                    `transform_output="pandas"`, only [`ROWS`][kybershards.dsci.decomposition.Coordinates.ROWS]
+                    is supported
 
         Returns:
-            Returns:
             Coordinates of rows or columns in the principal dimensions, based on `coordinates` argument
+
+        Raises:
+            ValueError: If n_components is not between 1 and n_features or between 0 and 1.
         """
         X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)  # pyright: ignore [reportAssignmentType, reportArgumentType]
+
         return self._fit(X)._transform(X, coordinates=coordinates)
 
     def _row_coordinates(self, X: NDArray) -> NDArray:
@@ -184,7 +221,7 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
     def _column_coordinates(self, X: NDArray) -> NDArray:
         return (X / X.sum(axis=1)[:, np.newaxis]) @ self.diag_r_ @ self.row_components_
 
-    def row_cosine_similarity(self, X: ArrayLike, F: ArrayLike) -> NDArray:  # pyright: ignore [reportRedeclaration]
+    def row_cosine_similarity(self, X: ArrayLike, F: NDArray) -> NDArray:  # pyright: ignore [reportRedeclaration]
         """Compute the cosine similarity between rows in original space and principal dimensions.
 
         The cosine similarity represents the quality of representation of the rows
@@ -193,26 +230,24 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
 
         Args:
             X: Input contingency table or frequency matrix with non-negative values.
-            F: Row coordinates in the principal dimensions, which should be the output of
+            F: Row coordinates in the principal dimensions, which should typically be the output of
                 `transform(X, coordinates=Coordinates.ROWS)`.
 
         Returns:
             Cosine similarity values for each row across all dimensions.
         """
         check_is_fitted(self)
-        X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)
+        X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)  # pyright: ignore [reportAssignmentType, reportArgumentType]
 
         # Chi-square distances
         row_profiles = X / X.sum(axis=1, keepdims=True)
         column_margins = X.sum(axis=0) / X.sum()
         chi_sq_distances = ((row_profiles - column_margins) ** 2 / column_margins).sum(axis=1)[:, np.newaxis]
 
-        cos2 = np.divide(F**2, chi_sq_distances, out=np.zeros_like(F), where=chi_sq_distances > 0)
+        return np.divide(F**2, chi_sq_distances, out=np.zeros_like(F), where=chi_sq_distances > 0)
 
-        return cos2
-
-    def column_cosine_similarity(self, X: ArrayLike, G: ArrayLike) -> NDArray:  # pyright: ignore [reportRedeclaration]
-        """Compute the cosine similarity (cos²) between columns in original space and principal dimensions.
+    def column_cosine_similarity(self, X: ArrayLike, G: NDArray) -> NDArray:  # pyright: ignore [reportRedeclaration]
+        """Compute the cosine similarity between columns in original space and principal dimensions.
 
         The cosine similarity represents the quality of representation of the columns
         in each principal dimension. It measures the proportion of the chi-square distance
@@ -220,23 +255,21 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
 
         Args:
             X: Input contingency table or frequency matrix with non-negative values.
-            G: Column coordinates in the principal dimensions, which should be the output of
+            G: Column coordinates in the principal dimensions, which should typically be the output of
                 `transform(X, coordinates=Coordinates.COLUMNS)`.
 
         Returns:
             Cosine similarity values for each column across all dimensions.
         """
         check_is_fitted(self)
-        X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)
+        X: NDArray = validate_data(self, X, ensure_min_features=2, ensure_non_negative=True)  # pyright: ignore [reportAssignmentType, reportArgumentType]
 
         # Chi-square distances
         col_profiles = X / X.sum(axis=0, keepdims=True)
         row_margins = X.sum(axis=1) / X.sum()
         chi_sq_distances = ((col_profiles.T - row_margins) ** 2 / row_margins).sum(axis=1)[:, np.newaxis]
 
-        cos2 = np.divide(G**2, chi_sq_distances, out=np.zeros_like(G), where=chi_sq_distances > 0)
-
-        return cos2
+        return np.divide(G**2, chi_sq_distances, out=np.zeros_like(G), where=chi_sq_distances > 0)
 
     @property
     def row_components(self) -> NDArray:
@@ -272,7 +305,7 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         return self.inertia_
 
     @property
-    def total_inertia(self) -> float:
+    def total_inertia(self) -> np.float32:
         """Gets the total inertia of the contingency table.
 
         The total inertia is the chi-square statistic of the table divided
@@ -335,3 +368,18 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
             "in order to retrieve the column contributions",
         )
         return self.column_contributions_
+
+    @property
+    def _n_features_out(self) -> int:
+        """The number of output features returned by the transform method.
+
+        This property is used by the [`ClassNamePrefixFeaturesOutMixin`][sklearn.base.ClassNamePrefixFeaturesOutMixin] to generate
+        appropriate feature names like `ca0`, `ca1`, etc. when the transformer
+        is used in a scikit-learn pipeline.
+
+        Returns:
+            Number of dimensions in the CA transformed space, which equals
+                the number of components selected during fitting.
+        """
+        check_is_fitted(self)
+        return self.row_components_.shape[1]

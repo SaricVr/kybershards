@@ -3,14 +3,39 @@ name = "kybershards"
 version = "0.1.0"
 description = "A modular Python library providing implementations of machine learning components, data structures, and analysis tools for data science"
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
-
-[project.optional-dependencies]
-dsci = [
-    "pandas>=2.3.0",
-    "scikit-learn>=1.6.1",
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=1.4.0",
+    "scikit-learn>=1.6.0"
+    ]
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers=[
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Rust",
+  "Programming Language :: Python",
+  "Topic :: Software Development",
+  "Topic :: Scientific/Engineering",
+  "Development Status :: 5 - Production/Stable",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Operating System :: MacOS",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
+
+[project.urls]
+Homepage = "https://saricvr.github.io/kybershards"
+Documentation = "https://saricvr.github.io/kybershards"
+Repository = "https://github.com/SaricVr/kybershards"
+Issues = "https://github.com/SaricVr/kybershards/issues"
+Changelog = "https://saricvr.github.io/kybershards/blob/master/CHANGELOG.md"
 
 [build-system]
 requires = ["uv_build>=0.7.9,<0.8"]
@@ -18,16 +43,19 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "pyright>=1.1.401",
+    "pyright>=1.1.402",
     "pytest>=8.4.0",
-    "pytest-cov>=6.1.1",
-    "ruff>=0.11.12",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.11.13",
 ]
 docs = [
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.6.14",
     "mkdocstrings[python]>=0.29.1",
 ]
+
+[tool.uv]
+default-groups = "all"
 
 [tool.ruff]
 line-length = 120
@@ -41,7 +69,7 @@ fixable = ["I"]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["D"]
+"tests/*" = ["D", "S101"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

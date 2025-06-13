@@ -15,9 +15,10 @@ nav:
       - kybershards/dsci.md
       - Decomposition:
         - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
-        - SVD Algorithm: kybershards/dsci/decomposition/svd.md
       - Typing: kybershards/dsci/typing.md
       - Utilities: kybershards/dsci/utils.md
+      - Datasets:
+        - Workers Smkoing Habits: kybershards/dsci/datasets/workers_smoking_habits.md
 
 theme:
   name: material
@@ -73,6 +74,7 @@ plugins:
               - https://docs.python.org/3/objects.inv
               - https://numpy.org/doc/stable/objects.inv
               - https://scikit-learn.org/stable/objects.inv
+              - https://pandas.pydata.org/docs/objects.inv
           options:
             show_source: false
             show_signature_annotations: true
