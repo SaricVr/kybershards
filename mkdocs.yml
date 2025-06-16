@@ -1,5 +1,8 @@
 site_name: KyberShards
-site_description: A modular Python library providing implementations of machine learning components, data structures, and analysis tools for data science
+site_description: >
+  A modular Python library providing implementations
+  of machine learning components, data structures,
+  and analysis tools for data science
 site_author: SaricVr
 repo_url: https://github.com/SaricVr/kybershards
 repo_name: kybershards
@@ -10,15 +13,15 @@ nav:
   - Homepage:
       - index.md
   - API Reference:
-    - Documentation: kybershards/documentation.md
-    - Data Science:
-      - kybershards/dsci.md
-      - Decomposition:
-        - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
-      - Typing: kybershards/dsci/typing.md
-      - Utilities: kybershards/dsci/utils.md
-      - Datasets:
-        - Workers Smkoing Habits: kybershards/dsci/datasets/workers_smoking_habits.md
+      - Documentation: kybershards/documentation.md
+      - Data Science:
+          - kybershards/dsci.md
+          - Decomposition:
+              - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
+          - Typing: kybershards/dsci/typing.md
+          - Utilities: kybershards/dsci/utils.md
+          - Datasets:
+              - Workers Smkoing Habits: kybershards/dsci/datasets/workers_smoking_habits.md
 
 theme:
   name: material
@@ -71,10 +74,10 @@ plugins:
       handlers:
         python:
           inventories:
-              - https://docs.python.org/3/objects.inv
-              - https://numpy.org/doc/stable/objects.inv
-              - https://scikit-learn.org/stable/objects.inv
-              - https://pandas.pydata.org/docs/objects.inv
+            - https://docs.python.org/3/objects.inv
+            - https://numpy.org/doc/stable/objects.inv
+            - https://scikit-learn.org/stable/objects.inv
+            - https://pandas.pydata.org/docs/objects.inv
           options:
             show_source: false
             show_signature_annotations: true
@@ -89,7 +92,7 @@ plugins:
             show_root_heading: true
             docstring_options:
               ignore_init_summary: true
-  
+
 markdown_extensions:
   - abbr
   - admonition

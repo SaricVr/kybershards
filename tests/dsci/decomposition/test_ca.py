@@ -1,14 +1,13 @@
 import numpy as np
-import pytest
-from numpy.typing import NDArray
 import pandas as pd
-from kybershards.dsci.datasets import load_workers_smoking_habits
-
-from kybershards.dsci.decomposition import CA, Coordinates, SVDAlgorithm
-
+import pytest
+import sklearn
+from numpy.typing import NDArray
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
-import sklearn
+
+from kybershards.dsci.datasets import load_workers_smoking_habits
+from kybershards.dsci.decomposition import CA, Coordinates, SVDAlgorithm
 
 
 @pytest.fixture(scope="module")

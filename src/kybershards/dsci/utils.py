@@ -30,5 +30,5 @@ def check_random_state(seed: Seed) -> Generator:
     if isinstance(seed, Generator):
         return seed
     if isinstance(seed, RandomState):
-        return default_rng(seed._bit_generator)  # noqa: SLF001
+        return default_rng(seed._bit_generator)
     return default_rng(seed)

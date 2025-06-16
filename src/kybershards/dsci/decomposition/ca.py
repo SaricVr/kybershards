@@ -1,4 +1,7 @@
+"""Correspondence Analysis."""
+
 from enum import Enum
+from typing import Any
 
 import numpy as np
 from numpy.linalg import norm
@@ -13,6 +16,8 @@ from kybershards.dsci.typing import LegacySeed
 
 
 class Coordinates(Enum):
+    """Type of coordinates to compute."""
+
     ROWS = "Rows"
     COLUMNS = "Columns"
 
@@ -63,13 +68,13 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         compute_contributions: bool = False,
         algorithm: SVDAlgorithm = SVDAlgorithm.TRUNCATED,
         random_state: LegacySeed = None,
-    ):
+    ) -> None:
         self.n_components = n_components
         self.compute_contributions = compute_contributions
         self.algorithm = algorithm
         self.random_state = random_state
 
-    def fit(self, X: ArrayLike, y: ArrayLike | None = None) -> "CA":  # pyright: ignore [reportRedeclaration]
+    def fit(self, X: ArrayLike, y: ArrayLike | None = None) -> "CA":  # pyright: ignore [reportRedeclaration] # noqa: ARG002
         """Fit the CA model to the data.
 
         Args:
@@ -88,7 +93,8 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
 
     def _fit(self, X: NDArray) -> "CA":
         if not 0 < self.n_components <= X.shape[1] - 1:
-            raise ValueError(f"n_components={self.n_components} must be between 1 and n_features or between 0 and 1")
+            msg = f"n_components={self.n_components} must be between 1 and n_features or between 0 and 1"
+            raise ValueError(msg)
 
         # Correspondence matrix
         P = X / X.sum()
@@ -107,10 +113,7 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         # Standardize residuals
         S = self.diag_r_ @ D @ self.diag_c_
 
-        if self.n_components >= 1:
-            svd_components = min(int(self.n_components), X.shape[1] - 1)
-        else:
-            svd_components = X.shape[1] - 1
+        svd_components = min(int(self.n_components), X.shape[1] - 1) if self.n_components >= 1 else X.shape[1] - 1
 
         # Left singular vector, singular values, right singular vector transposed
         self.row_components_, s, self.column_components_ = svd(
@@ -169,10 +172,10 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
         Args:
             X: Input contingency table or frequency matrix with non-negative values.
             coordinates: Which coordinates to compute in the princopal dimensions.
-                !!! warning
+                !!! note
                     If used as a transformer in a [`Pipeline`][sklearn.pipeline.Pipeline] with
                     `transform_output="pandas"`, only [`ROWS`][kybershards.dsci.decomposition.Coordinates.ROWS]
-                    is supported
+                    is supported. Transpose your input if you want to project the columns.
 
         Returns:
             Coordinates of rows or columns in the principal dimensions, based on `coordinates` argument
@@ -190,9 +193,9 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
     def fit_transform(
         self,
         X: ArrayLike,  # pyright: ignore [reportRedeclaration]
-        y: ArrayLike | None = None,
+        y: ArrayLike | None = None,  # noqa: ARG002
         coordinates: Coordinates = Coordinates.ROWS,
-        **fit_params,
+        **fit_params: dict[str, Any],  # noqa: ARG002
     ) -> NDArray:
         """Fit the CA model and transform the data in a single step.
 
@@ -200,10 +203,11 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
             X: Input contingency table or frequency matrix with non-negative values.
             y: Ignored. Kept for API compatibility with scikit-learn.
             coordinates: Which coordinates to compute in the princopal dimensions.
-                !!! warning
+                !!! note
                     If used as a transformer in a [`Pipeline`][sklearn.pipeline.Pipeline] with
                     `transform_output="pandas"`, only [`ROWS`][kybershards.dsci.decomposition.Coordinates.ROWS]
-                    is supported
+                    is supported. Transpose your input if you want to project the columns.
+            fit_params: Ignored. Kept for API compatibility with scikit-learn.
 
         Returns:
             Coordinates of rows or columns in the principal dimensions, based on `coordinates` argument
@@ -373,8 +377,8 @@ class CA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator):
     def _n_features_out(self) -> int:
         """The number of output features returned by the transform method.
 
-        This property is used by the [`ClassNamePrefixFeaturesOutMixin`][sklearn.base.ClassNamePrefixFeaturesOutMixin] to generate
-        appropriate feature names like `ca0`, `ca1`, etc. when the transformer
+        This property is used by the [`ClassNamePrefixFeaturesOutMixin`][sklearn.base.ClassNamePrefixFeaturesOutMixin]
+        to generate appropriate feature names like `ca0`, `ca1`, etc. when the transformer
         is used in a scikit-learn pipeline.
 
         Returns:

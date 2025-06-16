@@ -4,7 +4,6 @@ Welcome to the KyberShards API Reference. This section provides detailed documen
 
 ## Package Structure
 
-KyberShards is organized into two main subpackages:
+KyberShards is organized into the following sub-packages:
 
 - [Data Science](dsci.md)
-- Data Structures - to come

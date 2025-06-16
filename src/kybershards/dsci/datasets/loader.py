@@ -1,6 +1,8 @@
-import pandas as pd
+"""Dataset loaders."""
+
 from pathlib import Path
 
+import pandas as pd
 
 script_dir = Path(__file__).parent
 
