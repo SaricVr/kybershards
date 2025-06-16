@@ -1,4 +1,4 @@
-.PHONY: lint test lint-mix lint-all
+.PHONY: lint lint-mix lint-all test test-all
 
 lint:
 	uv run ruff format
@@ -9,7 +9,10 @@ lint-mix:
 	uv run tombi lint pyproject.toml
 	uv run yamllint .
 
+lint-all: lint lint-mix
+
 test:
 	uv run pytest --cov=kybershards --cov-branch --cov-report=term-missing
 
-lint-all: lint lint-mix
+test-all:
+	uv run tox -p auto
