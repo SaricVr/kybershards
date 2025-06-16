@@ -3,6 +3,7 @@
 lint:
 	uv run ruff format
 	uv run ruff check --fix
+	uv run pyright
 
 lint-mix:
 	uv run tombi format pyproject.toml
@@ -15,4 +16,6 @@ test:
 	uv run pytest --cov=kybershards --cov-branch --cov-report=term-missing
 
 test-all:
+	uv run coverage erase
 	uv run tox -p auto
+	uv run coverage report
