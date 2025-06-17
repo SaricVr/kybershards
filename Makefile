@@ -13,7 +13,7 @@ lint-mix:
 lint-all: lint lint-mix
 
 test:
-	uv run pytest --cov=kybershards --cov-branch --cov-report=term-missing
+	uv run pytest --cov=kybershards --cov-branch --cov-report=term-missing -v -n auto
 
 test-all:
 	uv run coverage erase

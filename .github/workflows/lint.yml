@@ -30,6 +30,3 @@ jobs:
       - run: uv run pyright
       - run: uv run tombi lint pyproject.toml
       - run: uv run yamllint .
-
-      - name: Minimize uv cache
-        run: uv cache prune --ci

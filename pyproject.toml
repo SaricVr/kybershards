@@ -37,6 +37,7 @@ Repository = "https://github.com/SaricVr/kybershards"
 dev = [
   "pyright>=1.1.402",
   "pytest-cov>=6.2.1",
+  "pytest-xdist>=3.7.0",
   "pytest>=8.4.0",
   "ruff>=0.11.13",
   "tombi>=0.4.9",
@@ -104,6 +105,3 @@ commands = [
     "--cov-report=",
   ],
 ]
-
-[tool.uv]
-default-groups = "all"
