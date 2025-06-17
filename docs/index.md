@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/SaricVr/kybershards/graph/badge.svg?token=9RB0U4AQ5E)](https://codecov.io/gh/SaricVr/kybershards)
+
 # KyberShards
 
 A modular Python library providing implementations of machine learning components, data structures, and analysis tools for data science
