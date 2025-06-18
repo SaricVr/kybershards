@@ -1,3 +1,5 @@
+# Correspondence Analysis
+
 ::: kybershards.dsci.decomposition.CA
     options:
         filters:

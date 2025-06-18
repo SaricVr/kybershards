@@ -13,15 +13,15 @@ nav:
   - Homepage:
       - index.md
   - API Reference:
-      - Documentation: kybershards/documentation.md
+      - kybershards/documentation.md
       - Data Science:
           - kybershards/dsci.md
           - Decomposition:
-              - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
-          - Typing: kybershards/dsci/typing.md
-          - Utilities: kybershards/dsci/utils.md
+              - kybershards/dsci/decomposition/ca.md
+          - kybershards/dsci/typing.md
+          - kybershards/dsci/utils.md
           - Datasets:
-              - Workers Smkoing Habits: kybershards/dsci/datasets/workers_smoking_habits.md
+              - kybershards/dsci/datasets/workers_smoking_habits.md
 
 theme:
   name: material
@@ -119,3 +119,4 @@ extra_javascript:
 extra:
   version:
     provider: mike
+    alias: true
