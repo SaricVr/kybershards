@@ -1,4 +1,4 @@
-name: Lint
+name: Build docs
 
 "on":
   push:
@@ -16,9 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,9 +27,4 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
-      - run: uv run ruff format --check
-      - run: uv run ruff check
-      - run: uv run pyright
-      - run: uv run tombi lint pyproject.toml
-      - run: uv run yamllint .
-      - run: uv run pymarkdownlnt scan docs *.md -r
+      - run: uv run mkdocs build --strict

@@ -1,3 +1,5 @@
+# Typing
+
 ::: kybershards.dsci.typing
     options:
         show_root_heading: false
