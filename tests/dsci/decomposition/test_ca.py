@@ -29,7 +29,7 @@ def ca_pipeline(contingency_table: pd.DataFrame) -> pd.DataFrame:
                 ("identity_in", FunctionTransformer()),
                 ("ca", CA(n_components=2, algorithm=SVDAlgorithm.FULL)),
                 ("identity_out", FunctionTransformer()),
-            ]
+            ],
         )
         return pipeline.fit_transform(contingency_table)
 
@@ -53,14 +53,14 @@ def row_components() -> NDArray:
             [0.71554563, 0.05475038],
             [-0.57530335, -0.38957951],
             [0.2646963, -0.28376408],
-        ]
+        ],
     )
 
 
 @pytest.fixture
 def column_components() -> NDArray:
     return np.array(
-        [[0.80870009, -0.17564112, -0.40696007, -0.38670126], [0.17127755, -0.68056865, -0.04167443, 0.71116353]]
+        [[0.80870009, -0.17564112, -0.40696007, -0.38670126], [0.17127755, -0.68056865, -0.04167443, 0.71116353]],
     )
 
 
@@ -73,14 +73,14 @@ def row_coordinates() -> NDArray:
             [0.38059489, 0.01065991],
             [-0.23295191, -0.05774391],
             [0.20108912, -0.07891123],
-        ]
+        ],
     )
 
 
 @pytest.fixture
 def column_coordinates() -> NDArray:
     return np.array(
-        [[0.39330845, 0.03049207], [-0.09945592, -0.14106429], [-0.19632096, -0.00735911], [-0.29377599, 0.19776566]]
+        [[0.39330845, 0.03049207], [-0.09945592, -0.14106429], [-0.19632096, -0.00735911], [-0.29377599, 0.19776566]],
     )
 
 
@@ -108,14 +108,14 @@ def row_contributions() -> NDArray:
             [0.51200555, 0.0029976],
             [0.33097395, 0.15177219],
             [0.07006413, 0.08052205],
-        ]
+        ],
     )
 
 
 @pytest.fixture
 def column_contributions() -> NDArray:
     return np.array(
-        [[0.65399583, 0.029336], [0.0308498, 0.46317368], [0.1656165, 0.00173676], [0.14953787, 0.50575356]]
+        [[0.65399583, 0.029336], [0.0308498, 0.46317368], [0.1656165, 0.00173676], [0.14953787, 0.50575356]],
     )
 
 
@@ -128,14 +128,14 @@ def row_cosine_similarity() -> NDArray:
             [9.99032948e-01, 7.83719694e-04],
             [9.41934118e-01, 5.78762422e-02],
             [8.65345506e-01, 1.33256997e-01],
-        ]
+        ],
     )
 
 
 @pytest.fixture
 def column_cosine_similarity() -> NDArray:
     return np.array(
-        [[0.99402039, 0.00597451], [0.32672616, 0.65728966], [0.98184805, 0.00137963], [0.68439774, 0.31015425]]
+        [[0.99402039, 0.00597451], [0.32672616, 0.65728966], [0.98184805, 0.00137963], [0.68439774, 0.31015425]],
     )
 
 
@@ -176,18 +176,26 @@ def test_ca_column_contributions(ca: CA, column_contributions: NDArray) -> None:
 
 
 def test_ca_row_cosine_similarity(
-    ca: CA, contingency_table: pd.DataFrame, row_projection: NDArray, row_cosine_similarity: NDArray
+    ca: CA,
+    contingency_table: pd.DataFrame,
+    row_projection: NDArray,
+    row_cosine_similarity: NDArray,
 ) -> None:
     np.testing.assert_array_almost_equal(
-        ca.row_cosine_similarity(contingency_table, row_projection), row_cosine_similarity
+        ca.row_cosine_similarity(contingency_table, row_projection),
+        row_cosine_similarity,
     )
 
 
 def test_ca_column_cosine_similarity(
-    ca: CA, contingency_table: pd.DataFrame, column_projection: NDArray, column_cosine_similarity: NDArray
+    ca: CA,
+    contingency_table: pd.DataFrame,
+    column_projection: NDArray,
+    column_cosine_similarity: NDArray,
 ) -> None:
     np.testing.assert_array_almost_equal(
-        ca.column_cosine_similarity(contingency_table, column_projection), column_cosine_similarity
+        ca.column_cosine_similarity(contingency_table, column_projection),
+        column_cosine_similarity,
     )
 
 

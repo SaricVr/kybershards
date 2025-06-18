@@ -1,4 +1,7 @@
+![PyPI - Version](https://img.shields.io/pypi/v/kybershards)
+![PyPI - Types](https://img.shields.io/pypi/types/kybershards)
 [![codecov](https://codecov.io/gh/SaricVr/kybershards/graph/badge.svg?token=9RB0U4AQ5E)](https://codecov.io/gh/SaricVr/kybershards)
+![GitHub License](https://img.shields.io/github/license/saricvr/kybershards)
 
 # KyberShards
 
