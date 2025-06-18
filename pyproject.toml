@@ -45,8 +45,6 @@ dev = [
   "tox-uv>=1.26.0",
   "tox>=4.26.0",
   "yamllint>=1.37.1",
-]
-docs = [
   "mkdocs-material>=9.6.14",
   "mkdocs>=1.6.1",
   "mkdocstrings[python]>=0.29.1",
