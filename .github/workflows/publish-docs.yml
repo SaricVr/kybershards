@@ -1,9 +1,7 @@
 name: Publish docs
 
 "on":
-  push:
-    branches:
-      - gh-pages
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
