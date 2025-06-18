@@ -1,0 +1,113 @@
+[project]
+name = "kybershards"
+version = "0.1.0"
+description = "A modular Python library providing implementations of machine learning components, data structures, and analysis tools for data science"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development",
+  "Topic :: Software Development :: Libraries",
+  "Typing :: Typed",
+]
+dependencies = ["pandas>=1.4.0", "scikit-learn>=1.6.0"]
+
+[project.urls]
+Changelog = "https://saricvr.github.io/kybershards/blob/master/CHANGELOG.md"
+Documentation = "https://saricvr.github.io/kybershards"
+Homepage = "https://saricvr.github.io/kybershards"
+Issues = "https://github.com/SaricVr/kybershards/issues"
+Repository = "https://github.com/SaricVr/kybershards"
+
+[dependency-groups]
+dev = [
+  "mike>=2.1.3",
+  "pyright>=1.1.402",
+  "pytest-cov>=6.2.1",
+  "pytest-xdist>=3.7.0",
+  "pytest>=8.4.0",
+  "ruff>=0.11.13",
+  "tombi>=0.4.9",
+  "tox-uv>=1.26.0",
+  "tox>=4.26.0",
+  "yamllint>=1.37.1",
+]
+docs = [
+  "mkdocs-material>=9.6.14",
+  "mkdocs>=1.6.1",
+  "mkdocstrings[python]>=0.29.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.7.9,<0.8"]
+build-backend = "uv_build"
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "COM812",  # Missing trailing comma in multiline expressions
+  "D104",  # Missing docstring in public package (__init__.py)
+  "D107",  # Missing docstring in __init__ method
+  "D203",  # One blank line required before class docstring
+  "D213",  # Multi-line docstring closing quotes should be on separate line
+  "PLR0913",  # Too many arguments in function definition
+  "SLF001",  # Private member accessed outside class
+]
+fixable = ["I"]  # Automatically fix imports
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+  "D",
+  "S101",
+]  # Ignore docstring rules and assert statements in tests
+"src/kybershards/dsci/*.py" = [
+  "N803",
+  "N806",
+]  # Allow non-lowercase variable/argument names in data science modules
+
+[tool.tombi]
+include = ["pyproject.toml"]
+
+[tool.tox]
+requires = ["tox>=4.26", "tox-uv>=1.26"]
+env_list = ["3.10", "3.11", "3.12", "3.13"]
+
+[tool.tox.env_run_base]
+description = "Run test under {base_python}"
+runner = "uv-venv-lock-runner"
+commands = [
+  [
+    "pytest",
+    "-qq",
+    "--cov",
+    "kybershards",
+    "--cov-append",
+    "--cov-branch",
+    "--cov-report=",
+  ],
+]

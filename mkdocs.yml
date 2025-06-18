@@ -1,0 +1,121 @@
+site_name: KyberShards
+site_description: >
+  A modular Python library providing implementations
+  of machine learning components, data structures,
+  and analysis tools for data science
+site_author: SaricVr
+repo_url: https://github.com/SaricVr/kybershards
+repo_name: kybershards
+site_url: https://saricvr.github.io/kybershards
+copyright: Copyright &copy; 2025 SaricVr
+
+nav:
+  - Homepage:
+      - index.md
+  - API Reference:
+      - Documentation: kybershards/documentation.md
+      - Data Science:
+          - kybershards/dsci.md
+          - Decomposition:
+              - Correspondence Analysis: kybershards/dsci/decomposition/ca.md
+          - Typing: kybershards/dsci/typing.md
+          - Utilities: kybershards/dsci/utils.md
+          - Datasets:
+              - Workers Smkoing Habits: kybershards/dsci/datasets/workers_smoking_habits.md
+
+theme:
+  name: material
+  icon:
+    repo: material/github
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+    - navigation.prune
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+plugins:
+  - search
+  - mkdocstrings:
+      enable_inventory: true
+      handlers:
+        python:
+          inventories:
+            - https://docs.python.org/3/objects.inv
+            - https://numpy.org/doc/stable/objects.inv
+            - https://scikit-learn.org/stable/objects.inv
+            - https://pandas.pydata.org/docs/objects.inv
+          options:
+            show_source: false
+            show_signature_annotations: true
+            filters: ["!^_"]
+            inherited_members: true
+            separate_signature: true
+            unwrap_annotated: true
+            merge_init_into_class: true
+            signature_crossrefs: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            show_root_heading: true
+            docstring_options:
+              ignore_init_summary: true
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.betterem
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+      pygments_lang_class: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - css/extra.css
+extra_javascript:
+  - js/extra.js
+
+extra:
+  version:
+    provider: mike
