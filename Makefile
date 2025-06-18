@@ -1,4 +1,4 @@
-.PHONY: lint lint-mix lint-all test test-all
+.PHONY: lint lint-mix lint-all tests test-all docs
 
 lint:
 	uv run ruff format
@@ -21,3 +21,6 @@ test-all:
 	uv run coverage erase
 	uv run tox -p auto
 	uv run coverage report
+
+docs:
+	uv run mkdocs build --strict

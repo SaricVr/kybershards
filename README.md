@@ -18,7 +18,7 @@ The library is designed with both clarity and performance in mind, making it sui
 as production environments. By breaking down complex algorithms into understandable components (or "shards"), we promote
 transparency and enable users to combine these pieces in creative ways.
 
-## Installation:
+## Installation
 
 ```bash
 pip install kybershards
