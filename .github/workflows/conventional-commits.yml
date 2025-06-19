@@ -1,0 +1,38 @@
+name: Conventional commits
+
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  history:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ github.event.pull_request.commits }}
+      - uses: actions/setup-python@v5
+      - run: pip install commitizen
+      - run: cz check --rev-range HEAD~${{ github.event.pull_request.commits }}..HEAD
+
+  check:
+    if: always()
+    needs: history
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
