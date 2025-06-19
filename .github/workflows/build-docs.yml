@@ -27,7 +27,7 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
-      - run: uv run mkdocs build --strict
+      - run: uv run --group docs mkdocs build --strict
 
   check:
     if: always()

@@ -18,9 +18,9 @@ test:
 	uv run pytest --cov=kybershards --cov-branch --cov-report=term-missing -v -n auto
 
 test-all:
-	uv run coverage erase
+	uv run --group test coverage erase
 	uv run tox -p auto
 	uv run coverage report
 
 docs:
-	uv run mkdocs build --strict
+	uv run --group docs mkdocs build --strict

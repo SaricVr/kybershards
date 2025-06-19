@@ -375,8 +375,6 @@ dev = [
     { name = "pytest-xdist" },
     { name = "ruff" },
     { name = "tombi" },
-    { name = "tox" },
-    { name = "tox-uv" },
     { name = "yamllint" },
 ]
 docs = [
@@ -384,6 +382,10 @@ docs = [
     { name = "mkdocs" },
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extra = ["python"] },
+]
+test = [
+    { name = "tox" },
+    { name = "tox-uv" },
 ]
 
 [package.metadata]
@@ -401,8 +403,6 @@ dev = [
     { name = "pytest-xdist", specifier = ">=3.7.0" },
     { name = "ruff", specifier = ">=0.11.13" },
     { name = "tombi", specifier = ">=0.4.9" },
-    { name = "tox", specifier = ">=4.26.0" },
-    { name = "tox-uv", specifier = ">=1.26.0" },
     { name = "yamllint", specifier = ">=1.37.1" },
 ]
 docs = [
@@ -410,6 +410,10 @@ docs = [
     { name = "mkdocs", specifier = ">=1.6.1" },
     { name = "mkdocs-material", specifier = ">=9.6.14" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.29.1" },
+]
+test = [
+    { name = "tox", specifier = ">=4.26.0" },
+    { name = "tox-uv", specifier = ">=1.26.0" },
 ]
 
 [[package]]

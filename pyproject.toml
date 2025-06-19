@@ -41,8 +41,6 @@ dev = [
   "pytest>=8.4.0",
   "ruff>=0.11.13",
   "tombi>=0.4.9",
-  "tox-uv>=1.26.0",
-  "tox>=4.26.0",
   "yamllint>=1.37.1",
 ]
 docs = [
@@ -50,6 +48,10 @@ docs = [
   "mkdocs-material>=9.6.14",
   "mkdocs>=1.6.1",
   "mkdocstrings[python]>=0.29.1",
+]
+test = [
+  "tox-uv>=1.26.0",
+  "tox>=4.26.0",
 ]
 
 [build-system]
