@@ -34,3 +34,13 @@ jobs:
       - run: uv run tombi lint pyproject.toml
       - run: uv run yamllint .
       - run: uv run pymarkdownlnt scan docs *.md -r
+
+  check:
+    if: always()
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@v1
+        with:
+          jobs: ${{ toJSON(needs) }}
